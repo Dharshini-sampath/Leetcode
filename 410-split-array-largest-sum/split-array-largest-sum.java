@@ -2,50 +2,47 @@ class Solution {
 
     public int splitArray(int[] nums, int k) {
 
-        int low = 0;
-        int high = 0;
-
-        for (int num : nums) {
-            low = Math.max(low, num);
-            high += num;
+        int n=nums.length;
+        int res=0,low=0,high=0,mid;
+        for(int bookpages:nums)
+        {
+            low=Math.max(low,bookpages);
+            high+=bookpages;
         }
-
-        while (low <= high) {
-
-            int mid = low + (high - low) / 2;
-
-            if (canSplit(nums, k, mid)) {
-                high = mid - 1;
-            } 
-            else {
-                low = mid + 1;
+        while(low<=high)
+        {
+            mid=low+(high-low)/2;
+            if(isallocation(mid,nums,k))
+            {
+                res=mid;
+                high=mid-1;
+            }
+            else{
+                low=mid+1;
             }
         }
+        return res;
 
-        return low;
     }
-
-    public boolean canSplit(int[] nums, int k, int maxAllowed) {
-
-        int subarrays = 1;
-        int currentSum = 0;
-
-        for (int num : nums) {
-
-            if (currentSum + num > maxAllowed) {
-
-                subarrays++;
-                currentSum = num;
-
-                if (subarrays > k) {
-                    return false;
-                }
-
-            } else {
-                currentSum += num;
+    public boolean isallocation(int mid,int[] nums,int k)
+    {
+       int  student=1;
+        int pages=0;
+        for(int bookpages:nums)
+        {
+            if(pages+bookpages<=mid)
+            {
+                pages+=bookpages;
+            }
+            else{
+                student++;
+                pages=bookpages;
+            }
+            if(student>k)
+            {
+                return false;
             }
         }
-
         return true;
     }
 }
